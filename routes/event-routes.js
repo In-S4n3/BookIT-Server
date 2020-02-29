@@ -24,6 +24,7 @@ router.get('/events', (req, res, next) => {
   Event.find()
     //.populate('tasks')
     .then(allTheEvents => {
+      console.log(allTheEvents)
       res.json(allTheEvents);
     })
     .catch(err => {
@@ -32,10 +33,10 @@ router.get('/events', (req, res, next) => {
 });
 
 router.get('/events/:id', (req, res, next) => {
-  // if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-  //   res.status(400).json({ message: 'Specified id is not valid' });
-  //   return;
-  // }
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    res.status(400).json({ message: 'Specified id is not valid' });
+    return;
+  }
 
   // Our events have array of tasks' ids and
   // we can use .populate() method to get the whole task objects
@@ -51,10 +52,10 @@ router.get('/events/:id', (req, res, next) => {
 
 // PUT route => to update a specific project
 router.put('/events/:id', (req, res, next) => {
-  // if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-  //   res.status(400).json({ message: 'Specified id is not valid' });
-  //   return;
-  // }
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    res.status(400).json({ message: 'Specified id is not valid' });
+    return;
+  }
 
   Event.findByIdAndUpdate(req.params.id, req.body)
     .then(() => {
@@ -67,10 +68,10 @@ router.put('/events/:id', (req, res, next) => {
 
 // DELETE route => to delete a specific event
 router.delete('/events/:id', (req, res, next) => {
-  // if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-  //   res.status(400).json({ message: 'Specified id is not valid' });
-  //   return;
-  // }
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    res.status(400).json({ message: 'Specified id is not valid' });
+    return;
+  }
 
   Event.findByIdAndRemove(req.params.id)
     .then(() => {
