@@ -6,11 +6,12 @@ const Event = require("../models/event-model");
 
 // POST route => TO CREATE A NEW EVENT
 router.post("/events", (req, res, next) => {
-  const { name, date, local } = req.body;
+  const { name, date, restaurants, guests } = req.body;
   Event.create({
     name,
     date,
-    local
+    restaurants,
+    guests
   })
     .then(response => {
       res.json(response);
