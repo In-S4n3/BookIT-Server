@@ -2,15 +2,15 @@ const express = require("express");
 const mongoose = require("mongoose");
 const router = express.Router();
 
-const Event = require("../models/event-model");
+const ZomatoEvent = require("../models/zomato-schema");
 
-// POST route => TO CREATE A NEW EVENT
-router.post("/events", (req, res, next) => {
-  const { name, date, local } = req.body;
-  Event.create({
+// POST route => to create a new event
+router.post("/zomato", (req, res, next) => {
+  const { name, date, restaurants } = req.body;
+  ZomatoEvent.create({
     name,
     date,
-    local
+    restaurants,
   })
     .then(response => {
       res.json(response);
@@ -20,25 +20,28 @@ router.post("/events", (req, res, next) => {
     });
 });
 
-// GET route => TO GET THE EVENTS
-router.get("/events", (req, res, next) => {
-  Event.find()
-    .then(allTheEvents => {
-      console.log(allTheEvents);
-      res.json(allTheEvents);
+router.get("/zomato", (req, res, next) => {
+  ZomatoEvent.find()
+    //.populate('tasks')
+    .then(allTheZomatoEvents => {
+      console.log(allTheZomatoEvents);
+      res.json(allTheZomatoEvents);
     })
     .catch(err => {
       res.json(err);
     });
 });
 
-// GET route => TO GET INSIDE AN EVENT
-router.get("/events/:id", (req, res, next) => {
+router.get("/zomato/:id", (req, res, next) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
     res.status(400).json({ message: "Specified id is not valid" });
     return;
   }
-  Event.findById(req.params.id)
+
+  // Our events have array of tasks' ids and
+  // we can use .populate() method to get the whole task objects
+  ZomatoEvent.findById(req.params.id)
+    //.populate('tasks')
     .then(event => {
       res.status(200).json(event);
     })
@@ -47,13 +50,14 @@ router.get("/events/:id", (req, res, next) => {
     });
 });
 
-// PUT route => TO EDIT/UPDATE AN EVENT
-router.put("/events/:id", (req, res, next) => {
+// PUT route => to update a specific project
+router.put("/zomato/:id", (req, res, next) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
     res.status(400).json({ message: "Specified id is not valid" });
     return;
   }
-  Event.findByIdAndUpdate(req.params.id, req.body)
+
+  ZomatoEvent.findByIdAndUpdate(req.params.id, req.body)
     .then(() => {
       res.json({
         message: `Event with ${req.params.id} is updated successfully.`
@@ -65,12 +69,13 @@ router.put("/events/:id", (req, res, next) => {
 });
 
 // DELETE route => to delete a specific event
-router.delete("/events/:id", (req, res, next) => {
+router.delete("/zomato/:id", (req, res, next) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
     res.status(400).json({ message: "Specified id is not valid" });
     return;
   }
-  Event.findByIdAndRemove(req.params.id)
+
+  ZomatoEvent.findByIdAndRemove(req.params.id)
     .then(() => {
       res.json({
         message: `Event with ${req.params.id} is removed successfully.`
