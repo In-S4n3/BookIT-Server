@@ -5,7 +5,8 @@ const eventSchema = new Schema({
   name: String,
   date: String,
   local: String,
-  // owner will be added later on
+  owner: String
+
 });
 
 const Event = mongoose.model('Event', eventSchema);
