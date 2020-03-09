@@ -4,9 +4,10 @@ const Schema = mongoose.Schema;
 const eventSchema = new Schema({
   name: String,
   date: String,
-  local: String,
-  owner: String
-
+  restaurantName: String,
+  restaurantAddress: String,
+  guests: String
+  // owner will be added later on
 });
 
 const Event = mongoose.model('Event', eventSchema);

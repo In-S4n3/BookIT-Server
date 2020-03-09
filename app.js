@@ -80,9 +80,10 @@ app.use(
 
 // ROUTES MIDDLEWARE STARTS HERE:
 app.use('/api', require('./routes/event-routes'));
+// app.use('/api', require('./routes/zomato-routes'));
 // examples routes
-app.use('/api', require('./routes/project-routes'));
-app.use('/api', require('./routes/task-routes'));
+// app.use('/api', require('./routes/project-routes'));
+// app.use('/api', require('./routes/task-routes'));
 const index = require('./routes/index');
 app.use('/', index);
 
