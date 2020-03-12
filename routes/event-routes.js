@@ -4,8 +4,18 @@ const router = express.Router();
 
 const Event = require("../models/event-model");
 
+const admin = require("firebase-admin");
+
+const serviceAccount = require("../configs/fbServiceAccountKey.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://bookit-ad3fd.firebaseio.com"
+});
+
 // POST route => TO CREATE A NEW EVENT
 router.post("/events", (req, res, next) => {
+
   const {
     name,
     date,
@@ -26,7 +36,9 @@ router.post("/events", (req, res, next) => {
     .catch(err => {
       res.json(err);
     });
-});
+})
+
+
 
 // GET route => TO GET THE EVENTS
 router.get("/events", (req, res, next) => {
