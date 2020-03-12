@@ -6,8 +6,8 @@ const eventSchema = new Schema({
   date: String,
   restaurantName: String,
   restaurantAddress: String,
-  guests: String
-  // owner will be added later on
+  guests: String,
+
 });
 
 const Event = mongoose.model('Event', eventSchema);
