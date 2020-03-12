@@ -32,7 +32,7 @@ router.post("/events", (req, res, next) => {
 router.get("/events", (req, res, next) => {
   Event.find()
     .then(allTheEvents => {
-      console.log(allTheEvents);
+      //console.log(allTheEvents);
       res.json(allTheEvents);
     })
     .catch(err => {

@@ -22,7 +22,7 @@ const cors = require('cors');
 // IF YOU STILL DIDN'T, GO TO 'configs/passport.js' AND UN-COMMENT OUT THE WHOLE FILE
 
 mongoose
-  .connect('mongodb://localhost/BookIT-Server-id', {
+  .connect('mongodb://localhost/BookIT-Server', {
     useNewUrlParser: true
   })
   .then(x => {
