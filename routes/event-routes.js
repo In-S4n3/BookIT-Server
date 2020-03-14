@@ -4,11 +4,21 @@ const router = express.Router();
 
 const Event = require("../models/event-model");
 
+const admin = require('firebase-admin');
 
+const serviceAccount = require("../configs/fbServiceAccountKey.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://bookit-ad3fd.firebaseio.com"
+});
 
 // POST route => TO CREATE A NEW EVENT
 router.post("/events", (req, res, next) => {
-
+  if (req.headers.authorization) {
+    admin.auth().verifyIdToken(req.headers.authorization)
+      .then((decodedToken) => {
+        console.log('decoded token', decodedToken);
   const {
     name,
     date,
@@ -21,15 +31,22 @@ router.post("/events", (req, res, next) => {
       date,
       restaurantName,
       restaurantAddress,
-      guests
+      guests,
+      owner: decodedToken.uid
     })
     .then(response => {
       res.json(response);
     })
     .catch(err => {
       res.json(err);
-    });
-})
+    })
+}).catch(() => {
+  res.status(403).json({message: 'Unauthorized'});
+});
+} else {
+res.status(403).json({message: 'Unauthorized'});
+}
+});
 
 
 
