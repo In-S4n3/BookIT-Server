@@ -18,48 +18,61 @@ router.post("/events", (req, res, next) => {
   if (req.headers.authorization) {
     admin.auth().verifyIdToken(req.headers.authorization)
       .then((decodedToken) => {
-        console.log('decoded token', decodedToken);
-  const {
-    name,
-    date,
-    restaurantName,
-    restaurantAddress,
-    guests
-  } = req.body;
-  Event.create({
-      name,
-      date,
-      restaurantName,
-      restaurantAddress,
-      guests,
-      owner: decodedToken.uid
-    })
-    .then(response => {
-      res.json(response);
-    })
-    .catch(err => {
-      res.json(err);
-    })
-}).catch(() => {
-  res.status(403).json({message: 'Unauthorized'});
-});
-} else {
-res.status(403).json({message: 'Unauthorized'});
-}
+        // console.log('decoded token', decodedToken);
+        const {
+          name,
+          date,
+          restaurantName,
+          restaurantAddress,
+          guests
+        } = req.body;
+        Event.create({
+            name,
+            date,
+            restaurantName,
+            restaurantAddress,
+            guests,
+            owner: decodedToken.uid
+          })
+          .then(response => {
+            res.json(response);
+          })
+          .catch(err => {
+            res.json(err);
+          })
+      }).catch(() => {
+        res.status(403).json({
+          message: 'Unauthorized'
+        });
+      });
+  } else {
+    res.status(403).json({
+      message: 'Unauthorized'
+    });
+  }
 });
 
 
 
 // GET route => TO GET THE EVENTS
 router.get("/events", (req, res, next) => {
-  Event.find()
-    .then(allTheEvents => {
-      //console.log(allTheEvents);
-      res.json(allTheEvents);
-    })
-    .catch(err => {
-      res.json(err);
-    });
+  if (req.headers.authorization) {
+    admin.auth().verifyIdToken(req.headers.authorization)
+      .then((decodedToken) => {
+
+        console.log('decoded token', decodedToken.uid);
+        Event.find({
+            owner: decodedToken.uid
+          })
+          .then(allTheEvents => {
+            console.log(allTheEvents);
+            res.json(allTheEvents);
+          })
+          .catch(err => {
+            res.json(err);
+          });
+      });
+  }
 });
 
 // GET route => TO GET INSIDE AN EVENT
