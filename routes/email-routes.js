@@ -3,15 +3,26 @@ const nodemailer = require("nodemailer");
 const router = express.Router();
 
 router.post("/guests", (req, res) => {
-  console.log(req.body);
-  let { name, email, message } = req.body;
+  //console.log(req.body);
+  let { eName, email, message, name, date, restaurantId } = req.body;
   nodemailer.createTestAccount((err, account) => {
     const htmlEmail = `
     <h3>Conctat Details<h3/>
     <ul>
-      <li>Name: ${req.body.name}</li>
+      <li>Name: ${req.body.eName}</li>
     </ul>
-    <h3>Message<h3/>
+    <h2>Message<h2/>
+    <p>Olá, gostaria muito que estivesses presente no evento abaixo.</p>
+    <br/>
+    <h5>Name of the Event<h5/>
+    <p>${req.body.name}</p>
+    <h5>Date of the Event<h5/>
+    <p>${req.body.date}</p>
+    <h5>Name of the restaurant<h5/>
+    <p>${req.body.restaurantId.name}</p>
+    <h5>Address of the restaurant<h5/>
+    <p>${req.body.restaurantId.location.address}</p>
+    <br/>
     <p>${req.body.message}</p>
     `;
 
