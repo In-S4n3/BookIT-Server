@@ -74,7 +74,7 @@ app.use(
 // app.use('/api', require('./routes/task-routes'));
 const index = require('./routes/index');
 app.use('/', index);
-
+app.use('/api', require('./routes/email-routes'))
 app.use('/api', require('./routes/event-routes'));
 
 
