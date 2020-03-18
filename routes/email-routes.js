@@ -3,8 +3,16 @@ const nodemailer = require("nodemailer");
 const router = express.Router();
 
 router.post("/guests", (req, res) => {
-  //console.log(req.body);
-  let { eName, email, message, name, date, restaurantId } = req.body;
+  //console.log('teste', req.body);
+  let { eName, email, message, name, date, restaurantId, eventID } = req.body;
+
+  //1. Receber nesta rota eventID
+  //2. No body email vais ter um link http://localhost:5000/api/acceptInvitation?email=miguelbgomes@gmail.com&eventID=eventID
+  //3. Crias outra rota router.post("/acceptInvitation"
+  //4. Na rota criada req.param.email req.param.eventID
+  //5. Na colecao de eventos crias um atributo que se chama "guests"
+  //6. Na rota criada fazes update na colecao eventos dizendo: para o evento com o evento id, adiciona o email ao atributo guests
+
   nodemailer.createTestAccount((err, account) => {
     const htmlEmail = `
     <h3>Conctat Details<h3/>
@@ -27,7 +35,7 @@ router.post("/guests", (req, res) => {
     `;
 
     const transporter = nodemailer.createTransport({
-      service: 'Gmail',
+      service: "Gmail",
       auth: {
         user: "thebookitproject@gmail.com",
         pass: "bookit123456"
