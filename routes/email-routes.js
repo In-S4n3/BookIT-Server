@@ -2,26 +2,29 @@ const express = require("express");
 const nodemailer = require("nodemailer");
 const router = express.Router();
 
+//1. Receber nesta rota eventID feito
+//2. No body email vais ter um link http://localhost:5000/api/acceptInvitation?email=miguelbgomes@gmail.com&eventID=eventID feito
+//3. Crias outra rota router.post("/acceptInvitation"
+//4. Na rota criada req.param.email req.param.eventID
+//5. Na colecao de eventos crias um atributo que se chama "guests"
+//6. Na rota criada fazes update na colecao eventos dizendo: para o evento com o evento id, adiciona o email ao atributo guests
+
+router.post("/acceptInvitation", (req, res) => {
+  const { eName, email, message, name, date, restaurantId, eventID } = req.body;
+});
+
 router.post("/guests", (req, res) => {
   //console.log('teste', req.body);
   let { eName, email, message, name, date, restaurantId, eventID } = req.body;
 
-  //1. Receber nesta rota eventID
-  //2. No body email vais ter um link http://localhost:5000/api/acceptInvitation?email=miguelbgomes@gmail.com&eventID=eventID
-  //3. Crias outra rota router.post("/acceptInvitation"
-  //4. Na rota criada req.param.email req.param.eventID
-  //5. Na colecao de eventos crias um atributo que se chama "guests"
-  //6. Na rota criada fazes update na colecao eventos dizendo: para o evento com o evento id, adiciona o email ao atributo guests
-
   nodemailer.createTestAccount((err, account) => {
     const htmlEmail = `
-    <h3>Conctat Details<h3/>
-    <ul>
-      <li>Name: ${req.body.eName}</li>
-    </ul>
-    <h2>Message<h2/>
-    <p>Olá, gostaria muito que estivesses presente no evento abaixo.</p>
-    <br/>
+    <img src="/public/images/logo.png" alt="BookIT logo"/>
+    <p>
+      Hi ${req.body.eName}! <br/>
+      It would be a pleasure if you accept my invition for the event below. <br/>
+      Please, follow the <a href=http://localhost:5000/api/acceptInvitation?email=${email}&eventID=${eventID}>link</a> to confirm your presence!
+    </p>
     <h5>Name of the Event<h5/>
     <p>${req.body.name}</p>
     <h5>Date of the Event<h5/>
@@ -46,7 +49,7 @@ router.post("/guests", (req, res) => {
       .sendMail({
         from: "BookIT",
         to: email,
-        subject: "You have an event invitation",
+        subject: "You have an event invitation!",
         html: htmlEmail
       })
       .then(info => {
