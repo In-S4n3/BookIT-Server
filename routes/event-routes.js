@@ -4,7 +4,7 @@ const router = express.Router();
 
 const Event = require("../models/event-model");
 
-const admin = require('firebase-admin');
+const admin = require("firebase-admin");
 
 const serviceAccount = require("../configs/fbServiceAccountKey.json");
 
@@ -16,8 +16,10 @@ admin.initializeApp({
 // POST route => TO CREATE A NEW EVENT
 router.post("/events", (req, res, next) => {
   if (req.headers.authorization) {
-    admin.auth().verifyIdToken(req.headers.authorization)
-      .then((decodedToken) => {
+    admin
+      .auth()
+      .verifyIdToken(req.headers.authorization)
+      .then(decodedToken => {
         // console.log('decoded token', decodedToken);
         const {
           name,
@@ -39,27 +41,27 @@ router.post("/events", (req, res, next) => {
           })
           .catch(err => {
             res.json(err);
-          })
-      }).catch(() => {
+          });
+      })
+      .catch(() => {
         res.status(403).json({
-          message: 'Unauthorized'
+          message: "Unauthorized"
         });
       });
   } else {
     res.status(403).json({
-      message: 'Unauthorized'
+      message: "Unauthorized"
     });
   }
 });
 
-
-
 // GET route => TO GET THE EVENTS
 router.get("/events", (req, res, next) => {
   if (req.headers.authorization) {
-    admin.auth().verifyIdToken(req.headers.authorization)
-      .then((decodedToken) => {
-        console.log('decoded token', decodedToken.uid);
+    admin
+      .auth()
+      .verifyIdToken(req.headers.authorization)
+      .then(decodedToken => {
         Event.find({
             owner: decodedToken.uid
           })
