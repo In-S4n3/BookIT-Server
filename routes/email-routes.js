@@ -2,6 +2,8 @@ const express = require("express");
 const nodemailer = require("nodemailer");
 const router = express.Router();
 
+const Event = require("../models/event-model");
+
 //1. Receber nesta rota eventID feito
 //2. No body email vais ter um link http://localhost:5000/api/acceptInvitation?email=miguelbgomes@gmail.com&eventID=eventID feito
 //3. Crias outra rota router.post("/acceptInvitation"
@@ -9,13 +11,20 @@ const router = express.Router();
 //5. Na colecao de eventos crias um atributo que se chama "guests"
 //6. Na rota criada fazes update na colecao eventos dizendo: para o evento com o evento id, adiciona o email ao atributo guests
 
-router.post("/acceptInvitation", (req, res) => {
-  const { eName, email, message, name, date, restaurantId, eventID } = req.body;
+router.get("/acceptInvitation", (req, res) => {
+  console.log('a ligar')
+  Event.find({
+    id: req.query.eventID
+  })
+  .then()
+  .catch(err => {
+    res.json(err);
+  });
 });
 
 router.post("/guests", (req, res) => {
   //console.log('teste', req.body);
-  let { eName, email, message, name, date, restaurantId, eventID } = req.body;
+  let { eName, email, message, name, date, restaurantId, hour, eventID } = req.body;
 
   nodemailer.createTestAccount((err, account) => {
     const htmlEmail = `
@@ -29,6 +38,8 @@ router.post("/guests", (req, res) => {
     <p>${req.body.name}</p>
     <h5>Date of the Event<h5/>
     <p>${req.body.date}</p>
+    <h5>Time of the Event<h5/>
+    <p>${req.body.hour}</p>
     <h5>Name of the restaurant<h5/>
     <p>${req.body.restaurantId.name}</p>
     <h5>Address of the restaurant<h5/>
