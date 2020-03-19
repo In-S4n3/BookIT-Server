@@ -24,6 +24,7 @@ router.post("/events", (req, res, next) => {
         const {
           name,
           date,
+          hour,
           restaurantName,
           restaurantAddress,
           guests
@@ -31,6 +32,7 @@ router.post("/events", (req, res, next) => {
         Event.create({
             name,
             date,
+            hour,
             restaurantName,
             restaurantAddress,
             guests,
@@ -58,15 +60,14 @@ router.post("/events", (req, res, next) => {
 // GET route => TO GET THE EVENTS
 router.get("/events", (req, res, next) => {
   if (req.headers.authorization) {
-    admin
-      .auth()
-      .verifyIdToken(req.headers.authorization)
-      .then(decodedToken => {
+    admin.auth().verifyIdToken(req.headers.authorization)
+      .then((decodedToken) => {
+        //console.log('decoded token', decodedToken.uid);
         Event.find({
             owner: decodedToken.uid
           })
           .then(allTheEvents => {
-            console.log(allTheEvents);
+            //console.log(allTheEvents);
             res.json(allTheEvents);
           })
           .catch(err => {
