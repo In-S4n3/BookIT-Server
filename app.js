@@ -9,11 +9,12 @@ const mongoose = require('mongoose');
 const logger = require('morgan');
 const path = require('path');
 const cors = require('cors');
+require('dotenv').config();
 
 
 
 mongoose
-  .connect('mongodb://heroku_1vg45kp5:eqge2d2ccd8rdn6r6q41pfb7c5@ds251819.mlab.com:51819/heroku_1vg45kp5', {
+  .connect(process.env.MONGODB_URI, {
     useCreateIndex: true,
   useNewUrlParser: true,
   useUnifiedTopology: true
