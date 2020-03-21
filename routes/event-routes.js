@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const router = express.Router();
 
 const Event = require("../models/event-model");
+const Invitation = require("../models/invitation-model");
 
 const admin = require("firebase-admin");
 
@@ -88,6 +89,59 @@ router.get("/events/:id", (req, res, next) => {
   Event.findById(req.params.id)
     .then(event => {
       res.status(200).json(event);
+    })
+    .catch(error => {
+      res.json(error);
+    });
+});
+
+// GET route => TO GET INSIDE AN EVENT - INVITATIONS
+router.get("/invitation/:event_id", (req, res, next) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.event_id)) {
+    res.status(400).json({
+      message: "Specified id is not valid"
+    });
+    return;
+  }
+  Invitation.find({event_id: req.params.event_id})
+    .then(event => {
+      res.status(200).json(event);
+    })
+    .catch(error => {
+      console.log(error);
+      res.json(error);
+    });
+});
+
+// expected json (req.body): 
+// { event_id: 'xyz', email: 'tiago@gmail.com' }
+router.post("/invitation/", (req, res, next) => {
+  Invitation.create({
+    event_id: req.body.event_id,
+    email: req.body.email,
+    attending: false,
+  })
+  .then( response => res.json(response) )
+  .catch(  error => res.json(error) );
+});
+
+// PUT route => TO EDIT/UPDATE AN EVENT - INVITATIONS
+// expected header: 
+// { Authorization: <encoded JWT token> }
+// expected json (req.body): 
+// { invitation_id: 'xyz', attending: 'true' }
+router.put("/invitation/", (req, res, next) => {
+  if (!mongoose.Types.ObjectId.isValid(req.body.invitation_id)) {
+    res.status(400).json({
+      message: "Specified id is not valid"
+    });
+    return;
+  }
+  Event.findByIdAndUpdate(req.body.invitation_id, {attending: req.body.attending})
+    .then(() => {
+      res.json({
+        message: `Invite id: ${req.params.id} is was set to ${req.body.attending}.`
+      });
     })
     .catch(error => {
       res.json(error);

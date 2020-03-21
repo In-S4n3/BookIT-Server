@@ -2,29 +2,12 @@ const express = require("express");
 const nodemailer = require("nodemailer");
 const router = express.Router();
 
-const Event = require("../models/event-model");
 
-//1. Receber nesta rota eventID feito
-//2. No body email vais ter um link http://localhost:5000/api/acceptInvitation?email=miguelbgomes@gmail.com&eventID=eventID feito
-//3. Crias outra rota router.post("/acceptInvitation"
-//4. Na rota criada req.param.email req.param.eventID
-//5. Na colecao de eventos crias um atributo que se chama "guests"
-//6. Na rota criada fazes update na colecao eventos dizendo: para o evento com o evento id, adiciona o email ao atributo guests
 
-router.get("/acceptInvitation", (req, res) => {
-  console.log('a ligar')
-  Event.find({
-    id: req.query.eventID
-  })
-  .then()
-  .catch(err => {
-    res.json(err);
-  });
-});
-
-router.post("/guests", (req, res) => {
+// Route to send Emails
+router.post("/sendEmail", (req, res) => {
   //console.log('teste', req.body);
-  let { eName, email, message, name, date, restaurantId, hour, eventID } = req.body;
+  let { eName, email, message, name, date, restaurantName, restaurantAddress, hour } = req.body;
 
   nodemailer.createTestAccount((err, account) => {
     const htmlEmail = `
@@ -32,7 +15,7 @@ router.post("/guests", (req, res) => {
     <p>
       Hi ${req.body.eName}! <br/>
       It would be a pleasure if you accept my invition for the event below. <br/>
-      Please, follow the <a href=http://localhost:5000/api/acceptInvitation?email=${email}&eventID=${eventID}>link</a> to confirm your presence!
+      Please, follow the <a href=#>link</a> to confirm your presence!
     </p>
     <h5>Name of the Event<h5/>
     <p>${req.body.name}</p>
@@ -41,9 +24,9 @@ router.post("/guests", (req, res) => {
     <h5>Time of the Event<h5/>
     <p>${req.body.hour}</p>
     <h5>Name of the restaurant<h5/>
-    <p>${req.body.restaurantId.name}</p>
+    <p>${req.body.restaurantName}</p>
     <h5>Address of the restaurant<h5/>
-    <p>${req.body.restaurantId.location.address}</p>
+    <p>${req.body.restaurantAddress}</p>
     <br/>
     <p>${req.body.message}</p>
     `;
