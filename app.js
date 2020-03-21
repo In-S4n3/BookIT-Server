@@ -9,12 +9,15 @@ const mongoose = require('mongoose');
 const logger = require('morgan');
 const path = require('path');
 const cors = require('cors');
+require('dotenv').config();
 
 
 
 mongoose
-  .connect('mongodb://localhost/BookIT-Server', {
-    useNewUrlParser: true
+  .connect(process.env.MONGODB_URI, {
+    useCreateIndex: true,
+  useNewUrlParser: true,
+  useUnifiedTopology: true
   })
   .then(x => {
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)

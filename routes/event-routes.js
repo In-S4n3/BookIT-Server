@@ -1,16 +1,30 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const router = express.Router();
+require('dotenv').config();
+
 
 const Event = require("../models/event-model");
 const Invitation = require("../models/invitation-model");
 
 const admin = require("firebase-admin");
 
-const serviceAccount = require("../configs/fbServiceAccountKey.json");
+
+const fbase_cert = {
+  type: process.env.TYPE,
+  project_id: process.env.PROJECT_ID,
+  private_key_id: process.env.PRIVATE_KEY_ID,
+  private_key: process.env.PRIVATE_KEY.replace(/\\n/g, '\n'),
+  client_email: process.env.CLIENT_EMAIL,
+  client_id: process.env.CLIENT_ID,
+  auth_uri: process.env.AUTH_URI,
+  token_uri: process.env.TOKEN_URI,
+  auth_provider_x509_cert_url: process.env.AUTH_PROVEIDER_x509_CERT_URL,
+  client_x509_cert_url: process.env.CLIENT_x509_CERT_URL,
+}
 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
+  credential: admin.credential.cert(JSON.parse(JSON.stringify(fbase_cert))),
   databaseURL: "https://bookit-ad3fd.firebaseio.com"
 });
 
@@ -60,15 +74,17 @@ router.post("/events", (req, res, next) => {
 
 // GET route => TO GET THE EVENTS
 router.get("/events", (req, res, next) => {
+
   if (req.headers.authorization) {
+
     admin.auth().verifyIdToken(req.headers.authorization)
       .then((decodedToken) => {
-        //console.log('decoded token', decodedToken.uid);
+
         Event.find({
             owner: decodedToken.uid
           })
           .then(allTheEvents => {
-            //console.log(allTheEvents);
+
             res.json(allTheEvents);
           })
           .catch(err => {
