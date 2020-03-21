@@ -3,16 +3,17 @@ const mongoose = require("mongoose");
 const router = express.Router();
 require('dotenv').config();
 
+
 const Event = require("../models/event-model");
 
 const admin = require("firebase-admin");
 
 
 const fbase_cert = {
-  type: process.env.TYPE ,
+  type: process.env.TYPE,
   project_id: process.env.PROJECT_ID,
   private_key_id: process.env.PRIVATE_KEY_ID,
-  private_key: process.env.PRIVATE_KEY,
+  private_key: process.env.PRIVATE_KEY.replace(/\\n/g, '\n'),
   client_email: process.env.CLIENT_EMAIL,
   client_id: process.env.CLIENT_ID,
   auth_uri: process.env.AUTH_URI,
@@ -22,7 +23,7 @@ const fbase_cert = {
 }
 
 admin.initializeApp({
-  credential: admin.credential.cert(fbase_cert),
+  credential: admin.credential.cert(JSON.parse(JSON.stringify(fbase_cert))),
   databaseURL: "https://bookit-ad3fd.firebaseio.com"
 });
 
