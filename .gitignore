@@ -7,5 +7,5 @@ npm-debug.log
 # Environment Variables should NEVER be published
 .env
 
-# firebase admin config credentials, also, should NEVER be published
-configs/fbServiceAccountKey.json
+# # firebase admin config credentials, also, should NEVER be published
+# configs/fbServiceAccountKey.json
