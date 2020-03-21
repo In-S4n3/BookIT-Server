@@ -13,8 +13,10 @@ const cors = require('cors');
 
 
 mongoose
-  .connect('mongodb://localhost/BookIT-Server', {
-    useNewUrlParser: true
+  .connect('mongodb://heroku_1vg45kp5:eqge2d2ccd8rdn6r6q41pfb7c5@ds251819.mlab.com:51819/heroku_1vg45kp5', {
+    useCreateIndex: true,
+  useNewUrlParser: true,
+  useUnifiedTopology: true
   })
   .then(x => {
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
