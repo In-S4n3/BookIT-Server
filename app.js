@@ -65,7 +65,7 @@ app.locals.title = "Express - Generated with IronGenerator";
 app.use(
   cors({
     credentials: true,
-    origin: ["http://localhost:3000"] // <== this will be the URL of our React app (it will be running on port 3000)
+    origin: ["http://localhost:3000", "http://book-it-ironhack-2020.s3-website.eu-west-3.amazonaws.com"] // <== this will be the URL of our React app (it will be running on port 3000)
   })
 );
 
