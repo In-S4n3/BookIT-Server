@@ -1,14 +1,12 @@
 const express = require("express");
 const nodemailer = require("nodemailer");
 const router = express.Router();
-const addCorsHeaders = require('./cors-add-resp-headers.js');
 
 
 
 // Route to send Emails
 router.post("/sendEmail", (req, res) => {
-  res = addCorsHeaders(res)
-  res.status(200).json(thingsFromDB)
+
   //console.log('teste', req.body);
   let {
     eName,
