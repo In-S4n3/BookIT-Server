@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const router = express.Router();
+const addCorsHeaders = require('./cors-add-resp-headers.js');
 require('dotenv').config();
 
 
@@ -8,6 +9,7 @@ const Event = require("../models/event-model");
 const Invitation = require("../models/invitation-model");
 
 const admin = require("firebase-admin");
+
 
 
 const fbase_cert = {
@@ -30,6 +32,9 @@ admin.initializeApp({
 
 // POST route => TO CREATE A NEW EVENT
 router.post("/events", (req, res, next) => {
+
+  res = addCorsHeaders(res)
+  res.status(200).json(thingsFromDB)
   if (req.headers.authorization) {
     admin
       .auth()
@@ -75,6 +80,8 @@ router.post("/events", (req, res, next) => {
 // GET route => TO GET THE EVENTS
 router.get("/events", (req, res, next) => {
 
+  res = addCorsHeaders(res)
+  res.status(200).json(thingsFromDB)
   if (req.headers.authorization) {
 
     admin.auth().verifyIdToken(req.headers.authorization)
@@ -96,6 +103,8 @@ router.get("/events", (req, res, next) => {
 
 // GET route => TO GET INSIDE AN EVENT
 router.get("/events/:id", (req, res, next) => {
+  res = addCorsHeaders(res)
+  res.status(200).json(thingsFromDB)
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
     res.status(400).json({
       message: "Specified id is not valid"
@@ -113,13 +122,17 @@ router.get("/events/:id", (req, res, next) => {
 
 // GET route => TO GET INSIDE AN EVENT - INVITATIONS
 router.get("/invitation/:event_id", (req, res, next) => {
+  res = addCorsHeaders(res)
+  res.status(200).json(thingsFromDB)
   if (!mongoose.Types.ObjectId.isValid(req.params.event_id)) {
     res.status(400).json({
       message: "Specified id is not valid"
     });
     return;
   }
-  Invitation.find({event_id: req.params.event_id})
+  Invitation.find({
+      event_id: req.params.event_id
+    })
     .then(event => {
       res.status(200).json(event);
     })
@@ -132,13 +145,15 @@ router.get("/invitation/:event_id", (req, res, next) => {
 // expected json (req.body): 
 // { event_id: 'xyz', email: 'tiago@gmail.com' }
 router.post("/invitation/", (req, res, next) => {
+  res = addCorsHeaders(res)
+  res.status(200).json(thingsFromDB)
   Invitation.create({
-    event_id: req.body.event_id,
-    email: req.body.email,
-    attending: false,
-  })
-  .then( response => res.json(response) )
-  .catch(  error => res.json(error) );
+      event_id: req.body.event_id,
+      email: req.body.email,
+      attending: false,
+    })
+    .then(response => res.json(response))
+    .catch(error => res.json(error));
 });
 
 // PUT route => TO EDIT/UPDATE AN EVENT - INVITATIONS
@@ -147,13 +162,17 @@ router.post("/invitation/", (req, res, next) => {
 // expected json (req.body): 
 // { invitation_id: 'xyz', attending: 'true' }
 router.put("/invitation/", (req, res, next) => {
+  res = addCorsHeaders(res)
+  res.status(200).json(thingsFromDB)
   if (!mongoose.Types.ObjectId.isValid(req.body.invitation_id)) {
     res.status(400).json({
       message: "Specified id is not valid"
     });
     return;
   }
-  Event.findByIdAndUpdate(req.body.invitation_id, {attending: req.body.attending})
+  Event.findByIdAndUpdate(req.body.invitation_id, {
+      attending: req.body.attending
+    })
     .then(() => {
       res.json({
         message: `Invite id: ${req.params.id} is was set to ${req.body.attending}.`
@@ -166,6 +185,8 @@ router.put("/invitation/", (req, res, next) => {
 
 // PUT route => TO EDIT/UPDATE AN EVENT
 router.put("/events/:id", (req, res, next) => {
+  res = addCorsHeaders(res)
+  res.status(200).json(thingsFromDB)
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
     res.status(400).json({
       message: "Specified id is not valid"
@@ -185,6 +206,8 @@ router.put("/events/:id", (req, res, next) => {
 
 // DELETE route => to delete a specific event
 router.delete("/events/:id", (req, res, next) => {
+  res = addCorsHeaders(res)
+  res.status(200).json(thingsFromDB)
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
     res.status(400).json({
       message: "Specified id is not valid"
