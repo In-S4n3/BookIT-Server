@@ -19,6 +19,7 @@ router.post("/sendEmail", (req, res) => {
     hour
   } = req.body;
 
+  console.log(req.body)
   nodemailer.createTestAccount((err, account) => {
     const htmlEmail = `
     <img src="/images/logo.png" alt="BookIT logo"/>

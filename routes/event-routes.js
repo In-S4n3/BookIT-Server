@@ -136,6 +136,7 @@ router.get("/invitation/:event_id", (req, res, next) => {
 // { event_id: 'xyz', email: 'tiago@gmail.com' }
 router.post("/invitation/", (req, res, next) => {
   Invitation.create({
+      eName: req.body.eName,
       event_id: req.body.event_id,
       email: req.body.email,
       attending: false,
