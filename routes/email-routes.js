@@ -27,18 +27,18 @@ router.post("/sendEmail", (req, res) => {
       It would be a pleasure if you accept my invition for the event below. <br/>
       
     </p>
-    <h4>Name of the Event<h5/>
-    <p>${req.body.name}</p>
-    <h4>Date of the Event<h5/>
-    <p>${req.body.date}</p>
-    <h4>Time of the Event<h5/>
-    <p>${req.body.hour}</p>
-    <h4>Name of the restaurant<h5/>
-    <p>${req.body.restaurantName}</p>
-    <h4>Address of the restaurant<h5/>
-    <p>${req.body.restaurantAddress}</p>
+    <h2>Name of the Event<h5/>
+    <h4>${req.body.name}</h4>
+    <h2>Date of the Event<h5/>
+    <h4>${req.body.date}</h4>
+    <h2>Time of the Event<h5/>
+    <h4>${req.body.hour}</h4>
+    <h2>Name of the restaurant<h5/>
+    <h4>${req.body.restaurantName}</h4>
+    <h2>Address of the restaurant<h5/>
+    <h4>${req.body.restaurantAddress}</h4>
     <br/>
-    <p>${req.body.message}</p>
+    <h4>${req.body.message}</h4>
 
     Please, check the <a href="http://book-it-ironhack-2020.s3-website.eu-west-3.amazonaws.com/">Event</a> to confirm your presence!
     `;
