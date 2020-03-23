@@ -7,7 +7,7 @@ const router = express.Router();
 // Route to send Emails
 router.post("/sendEmail", (req, res) => {
   //console.log('teste', req.body);
-  let { eName, email, message, name, date, restaurantName, restaurantAddress, hour } = req.body;
+  let { eName, email, message, name, date, restaurantName, restaurantAddress, hour, event_id } = req.body;
 
   nodemailer.createTestAccount((err, account) => {
     const htmlEmail = `
@@ -15,7 +15,7 @@ router.post("/sendEmail", (req, res) => {
     <p>
       Hi ${req.body.eName}! <br/>
       It would be a pleasure if you accept my invition for the event below. <br/>
-      Please, follow the <a href=#>link</a> to confirm your presence!
+      Please, follow the <a href="http://book-it-ironhack-2020.s3-website.eu-west-3.amazonaws.com/events/${event_id}">link</a> to confirm your presence!
     </p>
     <h5>Name of the Event<h5/>
     <p>${req.body.name}</p>
