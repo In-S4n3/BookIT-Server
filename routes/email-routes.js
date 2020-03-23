@@ -2,33 +2,43 @@ const express = require("express");
 const nodemailer = require("nodemailer");
 const router = express.Router();
 
-
-
 // Route to send Emails
 router.post("/sendEmail", (req, res) => {
   //console.log('teste', req.body);
-  let { eName, email, message, name, date, restaurantName, restaurantAddress, hour, event_id } = req.body;
+  let {
+    eName,
+    email,
+    message,
+    name,
+    date,
+    restaurantName,
+    restaurantAddress,
+    hour,
+    event_id
+  } = req.body;
 
   nodemailer.createTestAccount((err, account) => {
     const htmlEmail = `
-    <img src="/public/images/logo.png" alt="BookIT logo"/>
+    <img src="/images/logo.png" alt="BookIT logo"/>
     <p>
       Hi ${req.body.eName}! <br/>
       It would be a pleasure if you accept my invition for the event below. <br/>
-      Please, follow the <a href="http://book-it-ironhack-2020.s3-website.eu-west-3.amazonaws.com/events/${event_id}">link</a> to confirm your presence!
+      
     </p>
-    <h5>Name of the Event<h5/>
-    <p>${req.body.name}</p>
-    <h5>Date of the Event<h5/>
-    <p>${req.body.date}</p>
-    <h5>Time of the Event<h5/>
-    <p>${req.body.hour}</p>
-    <h5>Name of the restaurant<h5/>
-    <p>${req.body.restaurantName}</p>
-    <h5>Address of the restaurant<h5/>
-    <p>${req.body.restaurantAddress}</p>
+    <h2>Name of the Event<h5/>
+    <h5>${req.body.name}</h5>
+    <h2>Date of the Event<h5/>
+    <h5>${req.body.date}</h5>
+    <h2>Time of the Event<h5/>
+    <h5>${req.body.hour}</h5>
+    <h2>Name of the restaurant<h5/>
+    <h5>${req.body.restaurantName}</h5>
+    <h2>Address of the restaurant<h5/>
+    <h5>${req.body.restaurantAddress}</h5>
     <br/>
-    <p>${req.body.message}</p>
+    <h5>${req.body.message}</h5>
+
+    Please, check the <a href="http://book-it-ironhack-2020.s3-website.eu-west-3.amazonaws.com/events/${event_id}">Event</a> to confirm your presence!
     `;
 
     const transporter = nodemailer.createTransport({

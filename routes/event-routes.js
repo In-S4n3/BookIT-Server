@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const router = express.Router();
+
 require('dotenv').config();
 
 
@@ -119,7 +120,9 @@ router.get("/invitation/:event_id", (req, res, next) => {
     });
     return;
   }
-  Invitation.find({event_id: req.params.event_id})
+  Invitation.find({
+      event_id: req.params.event_id
+    })
     .then(event => {
       res.status(200).json(event);
     })
@@ -133,17 +136,18 @@ router.get("/invitation/:event_id", (req, res, next) => {
 // { event_id: 'xyz', email: 'tiago@gmail.com' }
 router.post("/invitation/", (req, res, next) => {
   Invitation.create({
-    event_id: req.body.event_id,
-    email: req.body.email,
-    attending: false,
-  })
-  .then( response => res.json(response) )
-  .catch(  error => res.json(error) );
+      eName: req.body.eName,
+      event_id: req.body.event_id,
+      email: req.body.email,
+      attending: false,
+    })
+    .then(response => res.json(response))
+    .catch(error => res.json(error));
 });
 
 // PUT route => TO EDIT/UPDATE AN EVENT - INVITATIONS
-// expected header: 
-// { Authorization: <encoded JWT token> }
+// expected header: <NOT IMPLEMENTED BUT IT SHOULD BE>
+// { Authorization: <encoded JWT token> } <NOT IMPLEMENTED BUT IT SHOULD BE>
 // expected json (req.body): 
 // { invitation_id: 'xyz', attending: 'true' }
 router.put("/invitation/", (req, res, next) => {
@@ -153,7 +157,9 @@ router.put("/invitation/", (req, res, next) => {
     });
     return;
   }
-  Event.findByIdAndUpdate(req.body.invitation_id, {attending: req.body.attending})
+  Event.findByIdAndUpdate(req.body.invitation_id, {
+      attending: req.body.attending
+    })
     .then(() => {
       res.json({
         message: `Invite id: ${req.params.id} is was set to ${req.body.attending}.`
