@@ -16,10 +16,11 @@ router.post("/sendEmail", (req, res) => {
     date,
     restaurantName,
     restaurantAddress,
-    hour
+    hour,
+    event_id
   } = req.body;
 
-  console.log(req.body)
+  console.log('-------------------',req.body)
   nodemailer.createTestAccount((err, account) => {
     const htmlEmail = `
     <img src="/images/logo.png" alt="BookIT logo"/>
@@ -41,7 +42,7 @@ router.post("/sendEmail", (req, res) => {
     <br/>
     <h5>${req.body.message}</h5>
 
-    Please, check the <a href="http://book-it-ironhack-2020.s3-website.eu-west-3.amazonaws.com/">Event</a> to confirm your presence!
+    Please, check the <a href="http://book-it-ironhack-2020.s3-website.eu-west-3.amazonaws.com/events/${event_id}">Event</a> to confirm your presence!
     `;
 
     const transporter = nodemailer.createTransport({

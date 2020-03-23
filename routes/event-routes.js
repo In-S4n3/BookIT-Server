@@ -146,8 +146,8 @@ router.post("/invitation/", (req, res, next) => {
 });
 
 // PUT route => TO EDIT/UPDATE AN EVENT - INVITATIONS
-// expected header: 
-// { Authorization: <encoded JWT token> }
+// expected header: <NOT IMPLEMENTED BUT IT SHOULD BE>
+// { Authorization: <encoded JWT token> } <NOT IMPLEMENTED BUT IT SHOULD BE>
 // expected json (req.body): 
 // { invitation_id: 'xyz', attending: 'true' }
 router.put("/invitation/", (req, res, next) => {
