@@ -28,17 +28,17 @@ router.post("/sendEmail", (req, res) => {
       
     </p>
     <h2>Name of the Event<h5/>
-    <h4>${req.body.name}</h4>
+    <h5>${req.body.name}</h5>
     <h2>Date of the Event<h5/>
-    <h4>${req.body.date}</h4>
+    <h5>${req.body.date}</h5>
     <h2>Time of the Event<h5/>
-    <h4>${req.body.hour}</h4>
+    <h5>${req.body.hour}</h5>
     <h2>Name of the restaurant<h5/>
-    <h4>${req.body.restaurantName}</h4>
+    <h5>${req.body.restaurantName}</h5>
     <h2>Address of the restaurant<h5/>
-    <h4>${req.body.restaurantAddress}</h4>
+    <h5>${req.body.restaurantAddress}</h5>
     <br/>
-    <h4>${req.body.message}</h4>
+    <h5>${req.body.message}</h5>
 
     Please, check the <a href="http://book-it-ironhack-2020.s3-website.eu-west-3.amazonaws.com/">Event</a> to confirm your presence!
     `;
