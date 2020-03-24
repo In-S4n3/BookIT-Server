@@ -29,15 +29,15 @@ router.post("/sendEmail", (req, res) => {
       It would be a pleasure if you accept my invition for the event below. <br/>
       
     </p>
-    <h2>Name of the Event<h5/>
+    <h3>Name of the Event<h5/>
     <h5>${req.body.name}</h5>
-    <h2>Date of the Event<h5/>
+    <h3>Date of the Event<h5/>
     <h5>${req.body.date}</h5>
-    <h2>Time of the Event<h5/>
+    <h3>Time of the Event<h5/>
     <h5>${req.body.hour}</h5>
-    <h2>Name of the restaurant<h5/>
+    <h3>Name of the restaurant<h5/>
     <h5>${req.body.restaurantName}</h5>
-    <h2>Address of the restaurant<h5/>
+    <h3>Address of the restaurant<h5/>
     <h5>${req.body.restaurantAddress}</h5>
     <br/>
     <h5>${req.body.message}</h5>
