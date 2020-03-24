@@ -38,9 +38,7 @@ router.post("/sendEmail", (req, res) => {
     <br/>
     <h5>${req.body.message}</h5>
 
-
-
-  Check my <a href="http://book-it-ironhack-2020.s3-website.eu-west-3.amazonaws.com/events/${event_id}">Event</a> to confirm your presence!
+      Check my <a href="http://book-it-ironhack-2020.s3-website.eu-west-3.amazonaws.com/events/${event_id}">Event</a> to confirm your presence!
     `;
 
     const transporter = nodemailer.createTransport({
